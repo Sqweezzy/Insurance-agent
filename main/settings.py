@@ -36,7 +36,10 @@ THIRD_PARTY_APPS = [
 
 # Список локальных приложений
 LOCAL_APPS = [
-    'apps.accounts'
+    'apps.accounts',
+    'apps.clients',
+    'apps.policies',
+    'apps.payments'
 ]
 
 # Общий список
@@ -55,7 +58,7 @@ MIDDLEWARE = [
 ]
 
 # Корневой url файл проекта
-ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF = 'main.urls'
 
 # Конфигурация шаблонов django 
 TEMPLATES = [
@@ -121,7 +124,7 @@ MEDIA_ROOT = BASE_DIR / config('MEDIA_ROOT', default='media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'accounts.Agent'
 
 # Настройки django REST Framework
 REST_FRAMEWORK = {
