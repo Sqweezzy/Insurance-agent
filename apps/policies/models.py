@@ -30,7 +30,7 @@ class Policy(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f"{self.policy_number} - {self.client_id.name}"
+        return f"{self.policy_number} - {self.client_id.first_name}"
     
     class Meta:
         verbose_name = "Policy"

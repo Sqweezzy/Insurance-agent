@@ -4,6 +4,7 @@
 import os
 from pathlib import Path
 from decouple import config
+from celery.schedules import crontab
 
 # Базовая директория проекта
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,7 +40,10 @@ LOCAL_APPS = [
     'apps.accounts',
     'apps.clients',
     'apps.policies',
-    'apps.payments'
+    'apps.payments',
+    'apps.documents',
+    'apps.notifications',
+    'apps.dashboard',
 ]
 
 # Общий список
@@ -128,6 +132,11 @@ AUTH_USER_MODEL = 'accounts.Agent'
 
 # Настройки django REST Framework
 REST_FRAMEWORK = {
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.MultiPartParser',
+        'rest_framework.parsers.FormParser',
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',  # Разрешить доступ только аутентифицированным пользователям.
     ],
@@ -156,7 +165,8 @@ else:
         'http://localhost:5173',
         'http://127.0.0.1:5173',
         'http://localhost:8000',
-        'http://127.0.0.1:8000'
+        'http://127.0.0.1:8000',
+        "capacitor://localhost"
     ]
 
 # JWT Configuration
@@ -202,3 +212,21 @@ LOGGING = {
 }
 
 os.makedirs(BASE_DIR / 'logs', exist_ok=True)
+
+# Redis
+REDIS_URL = 'redis://localhost:6379/0'
+
+# Celery
+CELERY_BROKER_URL = REDIS_URL
+CELERY_RESULT_BACKEND = REDIS_URL
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Europe/Moscow'
+CELERY_WORKER_POOL = 'gevent'
+CELERY_BEAT_SCHEDULE = {
+    'check-expiring-policies': {
+        'task': 'notifications.tasks.check_expiring_policies',
+        'schedule': crontab(hour=9, minute=0),  # каждый день в 9:00
+    }
+}
