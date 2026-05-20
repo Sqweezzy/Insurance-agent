@@ -21,7 +21,7 @@ class DashboardView(APIView):
         active_policies = Policy.objects.filter(
             agent_id=agent, status='active'
         ).count()
-
+        
         expiring_soon = Policy.objects.filter(
             agent_id=agent,
             status='active',

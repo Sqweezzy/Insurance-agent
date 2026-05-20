@@ -45,7 +45,9 @@ class NotificationMarkReadView(APIView):
             return Response({"detail": "Notification not found."}, status=status.HTTP_404_NOT_FOUND)
         
         serializer = NotificationMarkReadSerializer(notification, data=request.data, context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"detail": "Notification marked as read."}, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.update(notification, {})
+
+        return Response(
+            {"detail": "Notification marked as read."},
+            status=status.HTTP_200_OK
+        )

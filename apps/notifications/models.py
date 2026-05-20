@@ -5,8 +5,8 @@ from apps.policies.models import Policy
 
 
 class Notification(models.Model):
-    agent_id = models.ForeignKey(Agent, on_delete=models.CASCADE, related_name='notifications')
-    policy_id = models.ForeignKey(Policy, on_delete=models.CASCADE, related_name='notifications', null=True, blank=True)
+    agent = models.ForeignKey(Agent, on_delete=models.CASCADE, related_name='notifications')
+    policy = models.ForeignKey(Policy, on_delete=models.CASCADE, related_name='notifications', null=True, blank=True)
     type = models.CharField(max_length=50)
     message = models.TextField()
     is_read = models.BooleanField(default=False)

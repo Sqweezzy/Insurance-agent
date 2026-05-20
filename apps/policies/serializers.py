@@ -6,13 +6,13 @@ from ..accounts.models import Agent
 class InsuranceTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = InsuranceType
-        fields = ['name', 'code', 'description']
+        fields = ['id', 'name', 'code', 'description']
 
 
 class PolicyListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Policy
-        fields = ['policy_number', 'client_id', 'insurance_type', 'status', 'end_date']
+        fields = ['id', 'policy_number', 'client_id', 'insurance_type', 'status', 'end_date']
 
 
 class PolicyDetailSerializer(serializers.ModelSerializer):

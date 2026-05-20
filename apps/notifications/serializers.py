@@ -1,4 +1,4 @@
-from time import timezone
+from django.utils import timezone
 
 from rest_framework import serializers
 
@@ -8,7 +8,7 @@ from .models import Notification
 class NotificationListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
-        fields = ['type', 'message', 'created_at', 'is_read']
+        fields = ['id', 'type', 'message', 'created_at', 'is_read']
 
 
 class NotificationDetailSerializer(serializers.ModelSerializer):
